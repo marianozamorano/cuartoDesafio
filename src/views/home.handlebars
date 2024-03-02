@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Inicio</title>
+</head>
+<body>
+    <h1>Bienvenido a la Página de Inicio</h1>
+    <script src="https://cdn.socket.io/4.7.3/socket.io.min.js"></script>
+
+    <form id="productForm">
+    <label for="title">Nombre del producto:</label>
+    <input type="text" name="title" required>
+
+    <label for="description">Descripción:</label>
+    <textarea name="description" rows="3"></textarea>
+
+    <label for="code">Código:</label>
+    <input type="text" name="code" required>
+
+    <label for="price">Precio:</label>
+    <input type="number" name="price" step="0.01" required>
+
+    <label for="stock">Stock:</label>
+    <input type="number" name="stock" required>
+
+    <label for="category">Categoría:</label>
+    <input type="text" name="category">
+
+    <label for="thumbnails">URL de Imágenes:</label>
+    <input type="text" name="thumbnails">
+
+    <input type="submit" value="Agregar Producto">
+</form>
+    
+    <ul>
+        {{#each products}}
+            <li>{{this.title}} - {{this.price}}</li>
+        {{/each}}
+    </ul>
+</body>
+</html>

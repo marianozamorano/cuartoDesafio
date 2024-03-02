@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+{{#if products.length}}
+<ul>
+    {{#each products}}
+    <li>{{this.title}}</li>
+    {{/each}}
+</ul>
+{{else}}
+<p>No hay productos disponibles.</p>
+{{/if}}
+
+
+<script>
+    const socket = io();
+
+    document.getElementById("productForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        // Recolectar todos los campos del formulario
+        const formData = new FormData(event.target);
+        const productData = {};
+        formData.forEach((value, key) => {
+            productData[key] = value;
+        });
+
+        socket.emit("addProduct", productData);
+    });
+
+    socket.on("updateProducts", (updatedProducts) => {
+        // Actualizar la lista de productos en la interfaz de usuario si es necesario
+    });
+</script>
+</body>
+</html>
