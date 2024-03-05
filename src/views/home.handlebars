@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Bienvenido a la Página de Inicio</h1>
-    <script src="https://cdn.socket.io/4.7.3/socket.io.min.js"></script>
+    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
 
     <form id="productForm">
     <label for="title">Nombre del producto:</label>
@@ -39,5 +39,22 @@
             <li>{{this.title}} - {{this.price}}</li>
         {{/each}}
     </ul>
+
+    <script>
+        const socket = io();
+        document.getElementById("productForm").addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        // Recolectar datos del formulario y emitir evento al servidor
+        const formData = new FormData(event.target);
+        const productData = {};
+        formData.forEach((value, key) => {
+            productData[key] = value;
+        });
+
+        socket.emit("addProduct", productData);
+    });
+</script>
+
 </body>
 </html>

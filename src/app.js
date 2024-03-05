@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json())
 //Acá le digo a express que voy a recibir datos en formato JSON.
 
-let products = {};
+let products = [];
 //Rutas
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
@@ -41,6 +41,20 @@ app.get("/realtimeproducts", (req, res) => {
 io.on("connection", (socket) => {
     console.log("Usuario conectado");
 
+    socket.on("addProduct", (productData) => {
+        console.log("Producto recibido en el servidor:", productData);
+        try {
+            const newProduct = {
+                id: generateProductId(),
+                ...productData,
+            };
+            products.push(newProduct);
+            io.emit("updateProducts", products);
+        } catch (error) {
+            console.error("Error al agregar producto:", error);
+        }
+    });
+
     socket.on("updateProducts", () => {
         io.emit("updateProducts", products);
     });
@@ -53,7 +67,7 @@ io.on("connection", (socket) => {
 
 //Listen:
 
-app.listen(PUERTO, () => {
+server.listen(PUERTO, () => {
     console.log(`Escuchando en el puerto: ${PUERTO}`);
 })
 

@@ -17,7 +17,7 @@
 <p>No hay productos disponibles.</p>
 {{/if}}
 
-
+<script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
 <script>
     const socket = io();
 
@@ -30,11 +30,12 @@
         formData.forEach((value, key) => {
             productData[key] = value;
         });
-
+        console.log("Enviando producto al servidor:", productData);
         socket.emit("addProduct", productData);
     });
 
     socket.on("updateProducts", (updatedProducts) => {
+        console.log("Productos actualizados:", updatedProducts);
         // Actualizar la lista de productos en la interfaz de usuario si es necesario
     });
 </script>
