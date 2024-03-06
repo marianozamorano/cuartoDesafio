@@ -32,11 +32,11 @@ app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 
 app.get("/", (req, res) => {
-    res.render("home", { products });  // Ajusta "products" según tus necesidades
+    res.render("home", { products });
 });
 
 app.get("/realtimeproducts", (req, res) => {
-    res.render("realTimeProducts", { products });  // Ajusta "products" según tus necesidades
+    res.render("realTimeProducts", { products });
 });
 
 
