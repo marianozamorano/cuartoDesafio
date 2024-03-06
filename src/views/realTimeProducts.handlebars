@@ -10,11 +10,11 @@
 {{#if products.length}}
 <ul>
     {{#each products}}
-    <li>{{this.title}}</li>
+        <li>{{this.title}} - {{this.price}}</li>
     {{/each}}
 </ul>
 {{else}}
-<p>No hay productos disponibles.</p>
+    <p>No hay productos disponibles.</p>
 {{/if}}
 
 <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>

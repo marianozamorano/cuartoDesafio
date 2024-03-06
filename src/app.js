@@ -9,6 +9,8 @@ const PUERTO = 8080;
 const server = http.createServer(app);
 const io = socketIO(server);
 
+let nextProductId = 1;
+
 const hbs = exphbs.create({
     layoutsDir: path.join(__dirname, "views/layouts"),
 });
@@ -42,6 +44,7 @@ io.on("connection", (socket) => {
     console.log("Usuario conectado");
 
     socket.on("addProduct", (productData) => {
+        console.log("Valor actual de 'products':", products);
         console.log("Producto recibido en el servidor:", productData);
         try {
             const newProduct = {
@@ -64,6 +67,11 @@ io.on("connection", (socket) => {
     });
 });
 
+function generateProductId() {
+    const currentId = nextProductId;
+    nextProductId++;
+    return currentId.toString();
+}
 
 //Listen:
 
