@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "title": "arroz",
+    "description": "no se pasa",
+    "code": "abc180",
+    "price": "1213",
+    "stock": "34",
+    "category": "almacen",
+    "thumbnails": "sin imagen"
+  },
+  {
+    "id": "2",
+    "title": "fideos",
+    "description": "cuidado que se pasan",
+    "code": "abc35445",
+    "price": "44545",
+    "stock": "33",
+    "category": "almacen",
+    "thumbnails": "sin imagen"
+  }
+]

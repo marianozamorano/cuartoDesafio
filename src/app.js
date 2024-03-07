@@ -3,6 +3,9 @@ const exphbs = require("express-handlebars");
 const http = require("http");
 const socketIO = require("socket.io");
 const path = require("path");
+const fs = require("fs");
+
+const productsFilePath = path.join(__dirname, "public", "js", "products.json");
 
 const app = express();
 const PUERTO = 8080;
@@ -27,6 +30,41 @@ app.use(express.json())
 //Acá le digo a express que voy a recibir datos en formato JSON.
 
 let products = [];
+
+async function initProducts() {
+    try {
+        const productsData = fs.readFileSync(productsFilePath, 'utf-8');
+
+        if (!productsData.trim()) {
+            console.log("El archivo JSON está vacío o no contiene datos válidos.");
+            products = [];
+        } else {
+            const parsedProducts = JSON.parse(productsData);
+            products = parsedProducts;
+            console.log("Productos inicializados:", products);
+        }
+    } catch (error) {
+        if (error.code === "ENOENT") {
+            console.log("El archivo JSON no existe. Se creará uno nuevo.");
+            try {
+                fs.writeFileSync(productsFilePath, "[]", { encoding: 'utf-8' });
+                console.log("Archivo JSON creado con éxito.");
+                // const newProductsData = fs.readFileSync(productsFilePath, 'utf-8');
+                // const newParsedProducts = JSON.parse(newProductsData);
+                // products = newParsedProducts;
+                // console.log("Productos inicializados:", products);
+                initProducts();
+            } catch (writeError) {
+                console.error("Error al escribir o leer el archivo JSON:", writeError);
+            }
+        } else {
+            console.error("Error al leer el archivo JSON:", error);
+        }
+    }
+}
+
+initProducts();
+
 //Rutas
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
@@ -53,6 +91,8 @@ io.on("connection", (socket) => {
             };
             products.push(newProduct);
             io.emit("updateProducts", products);
+            fs.writeFileSync(productsFilePath, JSON.stringify(products, null, 2), "utf-8");
+
         } catch (error) {
             console.error("Error al agregar producto:", error);
         }
@@ -70,7 +110,8 @@ io.on("connection", (socket) => {
 function generateProductId() {
     const currentId = nextProductId;
     nextProductId++;
-    return currentId.toString();
+    // return currentId.toString();
+    return (products.length + 1).toString();
 }
 
 //Listen:
