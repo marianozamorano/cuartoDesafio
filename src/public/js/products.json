@@ -18,5 +18,15 @@
     "stock": "33",
     "category": "almacen",
     "thumbnails": "sin imagen"
+  },
+  {
+    "id": "3",
+    "title": "choclo",
+    "description": "en granos",
+    "code": "abc150",
+    "price": "234",
+    "stock": "23",
+    "category": "almacen",
+    "thumbnails": "sin imagen"
   }
 ]

@@ -18,6 +18,8 @@
 {{/if}}
 
 <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+
+<ul id="productList"></ul>
 <script>
     const socket = io();
 
@@ -36,7 +38,22 @@
 
     socket.on("updateProducts", (updatedProducts) => {
         console.log("Productos actualizados:", updatedProducts);
-        // Actualizar la lista de productos en la interfaz de usuario si es necesario
+        
+        const productList = document.getElementById("productList");
+        productList.innerHTML = ""; // Limpiar la lista antes de agregar elementos actualizados
+
+        if (updatedProducts.length > 0) {
+            updatedProducts.forEach((product) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${product.title} - ${product.price}`;
+                productList.appendChild(listItem);
+            });
+        } else {
+            const noProductsMessage = document.createElement("p");
+            noProductsMessage.textContent = "No hay productos disponibles.";
+            productList.appendChild(noProductsMessage);
+        }
+
     });
 </script>
 </body>
